@@ -30,6 +30,8 @@ function RegistrationForm(props){
 
 
     return(
+        <>
+        <h2 className='Registration_title'>Register</h2>
        <form className="mt-3" onSubmit={handleSubmit}>
            <div className="form-group text-left mb-3">
                 <label htmlFor="username">Username</label>
@@ -85,6 +87,7 @@ function RegistrationForm(props){
 
 
        </form>   
+       </>
     )
 }
 
