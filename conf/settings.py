@@ -40,9 +40,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     #THIRD PARTY
     'rest_framework',
+    'rest_framework.authtoken',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'rest_auth.registration',
+    'rest_auth',
     
 
     #LOCAL
@@ -140,3 +147,6 @@ REACT_APP_DIR = os.path.join(BASE_DIR, 'frontend/static')
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+SITE_ID = 1
+EMAIL_BACKEND ='django.core.mail.backends.console.EmailBackend'
