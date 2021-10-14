@@ -8,10 +8,12 @@ const [texts, setText] = useState('');
 
     return (
         <>
-            <form class="form" action="">
+            <form className="form" action="">
                 <input name="name" type="text" placeholder="name"/>
                 <input name="text" type="text" placeholder="text"/>
-                <button type="submit" class="submit_btn">Subtmit</button>
+                <button type="submit" className="submit_btn">Subtmit</button>
             </form>
         </>
     )}
+
+export default MessageForm;
