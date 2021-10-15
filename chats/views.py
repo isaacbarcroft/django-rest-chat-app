@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from .models import Room, Message
 from .serializers import RoomSerializer, MessageSerializer
 from rest_framework import generics 
@@ -23,7 +22,7 @@ class MessageListAPIView(generics.ListCreateAPIView):
 
     def perform_create(self,serializer):
         room = get_object_or_404(Room, id=self.kwargs['room'])
-        serializer.save(room=room,user=self.request.user )
+        serializer.save(room=room, user=self.request.user )
 
 class MessageDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Message.objects.all()

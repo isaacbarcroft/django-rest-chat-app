@@ -9,6 +9,7 @@ class RoomSerializer(serializers.ModelSerializer):
 
 
 class MessageSerializer(serializers.ModelSerializer):
+    user = serializers.CharField()
     class Meta:
         model = Message
         fields = ('id', 'user', 'body','room')
