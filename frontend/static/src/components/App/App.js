@@ -12,12 +12,22 @@ function App() {
   const [message, setMessage] = useState([])
   const [disable, setDisable] = useState(false);
   const [rooms, setRoom] = useState([]);
+  const [selectedRoom, setSelectedRoom] = useState({id: 0, name: 'room1'});
   
 async function getMessages(event){
   const response = await fetch(`/api_v1/chats/${event.target.value}/messages/`);
   const data = await response.json();
+  const matchedRoom = rooms.find(room => {
+    const roomIdString = room.id.toString()
+    return roomIdString===event.target.value
+  })
+  setSelectedRoom(matchedRoom)
   setMessage(data);
 }
+
+
+
+console.log({rooms})
 
 
 useEffect(() => {
@@ -32,6 +42,20 @@ useEffect(() => {
   }// return menuItemsAPI
   getRooms();
 },[])
+const fillerArray = [];
+useEffect(() => {
+    
+  // GET request using fetch with async/await
+  async function getRooms(){
+  const response = await fetch('/api_v1/chats/');
+  const data = await response.json();
+  console.log(data);
+  await setRoom(data);
+  console.log('rooms', rooms);
+  }// return menuItemsAPI
+  getRooms();
+},(fillerArray))
+
 
   async function addRoom(name){
     const newRoom = {
@@ -49,23 +73,23 @@ useEffect(() => {
     });
     if(response.ok){
       console.log(response)
+      setRoom([...rooms, newRoom]);
+      console.log({rooms})
       return response.json(); 
-     
 }  
-setRoom([rooms,newRoom]);
+
   }
 
 
-  async function submitMessage(name,event, text){
-    console.log(event);
+  async function submitMessage(name, text){
     const newMessage = {
       user: name, 
-      room: event.target.id,
+      room: selectedRoom.id,
       body: text, 
-    
     };
-    console.log();
-    const response = await fetch(`/api_v1/chats/${event.target.id}/messages/`, {
+    console.log({newMessage});
+
+    const response = await fetch(`/api_v1/chats/${selectedRoom.id}/messages/`, {
       method: 'POST',
       headers: {
         'Content-Type' : 'application/json',
@@ -95,27 +119,32 @@ setRoom([rooms,newRoom]);
     }
     setSelection('MessageForm');
   }
-  // function addMessage(title, price){
 
-  //   const newMessageText = {
-  //     , 
-  //     price,
-  //   }
-  //   setOrder([...order, newOrderItem]);
-  // }
+ async function deleteMessage(event){
+    console.log(event.room);
+    console.log('delete function');
+   const response = await fetch(`/api_v1/chats/${event.room}/messages/${event.id}/`, {
+        method: 'DELETE',
+        headers: {
+          'X-CSRFToken': Cookies.get('csrftoken'),
+        },
+    });
+  }
+
+
+
+
   const [selection, setSelection] = useState('RegistrationForm')
   let html;
 
   if(selection === 'MessageForm') {
     html = <MessageForm />
   } else if (selection === 'MessageList'){
-    html = <MessageList message={message} />
+    html = <MessageList message={message} deleteMessage={deleteMessage} />
   }else if(selection === 'RegistrationForm'){
     html = <RegistrationForm handleRegistration= {handleRegistration} />
   } else if (selection === 'LogOut'){
     html = <LogOut />
-  } else if (selection ==='Room'){
-    html = <Room  />
   } else if (selection ==='Sidebar'){
     html = <Sidebar rooms={rooms} addRoom={addRoom}/>
   }
@@ -126,7 +155,7 @@ setRoom([rooms,newRoom]);
       <button className="logout-btn"  onClick={() => {setDisable(true); setSelection('LogOut')}}>Log Out</button>
       {html}
       {console.log(message)}
-      <MessageList message={message} submitMessage={submitMessage} rooms={rooms}/>
+      <MessageList message={message} submitMessage={submitMessage} rooms={rooms} deleteMessage={deleteMessage} selectedRoom={selectedRoom}/>
       <Sidebar rooms={rooms} getMessages={getMessages} addRoom={addRoom}/>
       {/* <MessageForm submitMessage={submitMessage} /> */}
     {/* <RegistrationForm handleRegistration={handleRegistration} />
