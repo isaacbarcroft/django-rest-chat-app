@@ -23,11 +23,10 @@ function handleSubmit(event){
 
     return (
         <>
-      
-            <form className="form" action="" onSubmit={handleSubmit}>
-                <input name="name" value={names} type="text" placeholder="name" onChange={handleNameChange}/>
+            <form className="form input-group mb-3" action="" onSubmit={handleSubmit}>
+                <input className="form-control" name="name" value={names} aria-label="Recipient's username" aria-describedby="basic-addon2" type="text" placeholder="name" onChange={handleNameChange}/>
                 <input name="text" value={texts} type="text" placeholder="text"onChange={handleTextChange}/>
-                <button type="submit" className="submit_btn">Subtmit</button>
+                <button type="submit" className="btn btn-outline-secondary" >Subtmit</button>
             </form>
         </>
     )}

@@ -23,15 +23,20 @@ function handleSubmit(event){
 }
 console.log(props.rooms)
 
-const messageItems = props.message?.map(message => <div key={message.id} value={message.room}><h4>{message.user}</h4><p>{message.body}</p><button className="btn-primary" value={message.id} onClick={() => props.deleteMessage(message)}>Delete</button></div>);
+const messageItems = props.message?.map(message => <div className="message-list" key={message.id} value={message.room}><div className="message-list-content"><h4>{message.user}</h4><p>{message.body}</p></div><button className="btn delete-btn" value={message.id} onClick={() => props.deleteMessage(message)}>Delete</button></div>);
     return(
         <>
+        <div className='messages'>
+        <h2>{props.selectedRoom?.name}</h2>
+        <div className="message-user" >
         {messageItems}
         <form className="Message-form"  onSubmit={handleSubmit }>
                 <input name="name" value={names} type="text" placeholder="name" onChange={handleNameChange}/>
                 <input name="text" value={texts} type="text" placeholder={`Room: ${props.selectedRoom?.name}`} onChange={handleTextChange}/>
                 <button type="submit" className="submit_btn">Subtmit</button>
         </form>
+        </div>
+        </div> 
         </>
     )
     }

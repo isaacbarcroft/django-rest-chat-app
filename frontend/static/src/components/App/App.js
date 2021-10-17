@@ -7,27 +7,26 @@ import MessageList from './../MessageList/MessageList';
 import LogOut from './../LogOutPage/LogOutPage';
 import Room  from './../Room/Room';
 import Sidebar from './../Sidebar/Sidebar'
+import LoginPage from './../LoginPage/LoginPage';
 
 function App() {
-  const [message, setMessage] = useState([])
+  const [message, setMessage] = useState([]);
   const [disable, setDisable] = useState(false);
   const [rooms, setRoom] = useState([]);
-  const [selectedRoom, setSelectedRoom] = useState({id: 0, name: 'room1'});
+  const [selectedRoom, setSelectedRoom] = useState({id: 0, name: ''});
+  const [loggeedIn, setLoggedIn] = useState(false);
   
 async function getMessages(event){
   const response = await fetch(`/api_v1/chats/${event.target.value}/messages/`);
   const data = await response.json();
   const matchedRoom = rooms.find(room => {
-    const roomIdString = room.id.toString()
-    return roomIdString===event.target.value
+  const roomIdString = room.id.toString()
+  return roomIdString===event.target.value
   })
   setSelectedRoom(matchedRoom)
   setMessage(data);
 }
 
-
-
-console.log({rooms})
 
 
 useEffect(() => {
@@ -42,21 +41,8 @@ useEffect(() => {
   }// return menuItemsAPI
   getRooms();
 },[])
-const fillerArray = [];
-useEffect(() => {
-    
-  // GET request using fetch with async/await
-  async function getRooms(){
-  const response = await fetch('/api_v1/chats/');
-  const data = await response.json();
-  console.log(data);
-  await setRoom(data);
-  console.log('rooms', rooms);
-  }// return menuItemsAPI
-  getRooms();
-},(fillerArray))
 
-
+/// ADD ROOM
   async function addRoom(name){
     const newRoom = {
       name: name, 
@@ -77,9 +63,29 @@ useEffect(() => {
       console.log({rooms})
       return response.json(); 
 }  
-
   }
 
+  async function Login(user){
+    const response = await fetch('/rest-auth/login',{
+      method: 'POST',
+      headers:{
+        'Content-Type': 'application/json',
+        'X-CSRFToken': Cookies.get('csrftoken'),
+      },
+      body: JSON.stringify(user),
+    })
+    if (!response){
+      console.warn(response);
+    } else{
+      const data = await response.json();
+      Cookies.set('Authorization', `Token ${data.key}`);
+      if (data.key){
+
+      }else {
+        Cookies.remove('Authorization');
+      }
+    }
+  }
 
   async function submitMessage(name, text){
     const newMessage = {
@@ -97,6 +103,7 @@ useEffect(() => {
       },
       body: JSON.stringify(newMessage),
     });
+    setMessage([...message, newMessage])
     if(response.ok){
       return response.json(); 
 }  
@@ -145,6 +152,8 @@ useEffect(() => {
     html = <RegistrationForm handleRegistration= {handleRegistration} />
   } else if (selection === 'LogOut'){
     html = <LogOut />
+  } else if (selection === 'Login'){
+      html = <LoginPage  Login={Login} />
   } else if (selection ==='Sidebar'){
     html = <Sidebar rooms={rooms} addRoom={addRoom}/>
   }
@@ -152,6 +161,7 @@ useEffect(() => {
 
   return (
     <div className="App">
+      <header>Slack 2.0</header>
       <button className="logout-btn"  onClick={() => {setDisable(true); setSelection('LogOut')}}>Log Out</button>
       {html}
       {console.log(message)}

@@ -2,12 +2,55 @@
   text-align: center;
 }
 
-.nav-bar {
+.side-bar-nav {
   position: absolute;
-  left: 10px;
-  height: 5px;
-  
+  width: 25%;
 }
-
-
-
+.side-bar-nav h3 {
+  font-family: 'Mukta', sans-serif;
+}
+.logout-btn {
+  position: absolute;
+  right: 10px;
+}
+.delete-btn {
+  background-color:lightcoral;
+  color:lightcyan;
+}
+.message-user{
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+}
+.message-list {
+  border-bottom: 1px gray solid;
+}
+.message-list button {
+  font-style: italic;
+}
+.message-list-content{
+  text-align-last: left;
+  margin-left: 10px;
+}
+.messages {
+  position: absolute;
+  border: solid;
+  right: 0px;
+  width: 75%;
+  height: 50%;
+  overflow: scroll;
+}
+.nav-bar {
+  width: 90%;
+}
+.nav-bar button {
+  width: 100%;
+}
+.room-form {
+  width: 100%;
+}
+.message-form {
+  align-self: self-end;
+  text-align-last: right;
+}
