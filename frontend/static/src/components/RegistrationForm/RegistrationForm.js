@@ -31,7 +31,7 @@ function RegistrationForm(props){
 
     return(
         <>
-        <h2 className='Registration_title'>Register</h2>
+        <h2 className='Registration-title'>Register</h2>
        <form stytle={{margin: '0 20px'}} className="mt-3" onSubmit={handleSubmit}>
            <div className="form-group text-left mb-3">
                 <label htmlFor="username">Username</label>
@@ -82,7 +82,7 @@ function RegistrationForm(props){
                         />
                 <span className="text-danger">{error}</span>
            </div>
-           <button type="submit" className="bt btn-primary mt-3">Register</button>
+           <button type="submit" className="registration-btn mt-3">Register</button>
 
 
 

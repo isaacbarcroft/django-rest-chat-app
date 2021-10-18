@@ -5,9 +5,9 @@ import Cookies from 'js-cookie';
 import MessageForm from './../MessageForm/MessageForm';
 import MessageList from './../MessageList/MessageList';
 import LogOut from './../LogOutPage/LogOutPage';
-import Room  from './../Room/Room';
 import Sidebar from './../Sidebar/Sidebar'
 import LoginPage from './../LoginPage/LoginPage';
+import PageLoad from './../Room/Room';
 
 function App() {
   const [message, setMessage] = useState([]);
@@ -15,7 +15,7 @@ function App() {
   const [rooms, setRoom] = useState([]);
   const [selectedRoom, setSelectedRoom] = useState({id: 0, name: ''});
   const [loggeedIn, setLoggedIn] = useState(false);
-  
+  const [show, setShow] = useState(true)
 async function getMessages(event){
   const response = await fetch(`/api_v1/chats/${event.target.value}/messages/`);
   const data = await response.json();
@@ -124,7 +124,7 @@ useEffect(() => {
       const data = await response.json();
       Cookies.set('Authorization', `Token ${data.key}`);
     }
-    setSelection('MessageForm');
+    setSelection('Sidebar');
   }
 
  async function deleteMessage(event){
@@ -141,13 +141,16 @@ useEffect(() => {
 
 
 
-  const [selection, setSelection] = useState('RegistrationForm')
+  const [selection, setSelection] = useState('Room')
   let html;
+
 
   if(selection === 'MessageForm') {
     html = <MessageForm />
+  } else if(selection === 'Room'){
+    html = <PageLoad setSelection={setSelection} selection={selection} />
   } else if (selection === 'MessageList'){
-    html = <MessageList message={message} deleteMessage={deleteMessage} />
+    html = <MessageList message={message} submitMessage={submitMessage} rooms={rooms} deleteMessage={deleteMessage} selectedRoom={selectedRoom} />
   }else if(selection === 'RegistrationForm'){
     html = <RegistrationForm handleRegistration= {handleRegistration} />
   } else if (selection === 'LogOut'){
@@ -155,22 +158,23 @@ useEffect(() => {
   } else if (selection === 'Login'){
       html = <LoginPage  Login={Login} />
   } else if (selection ==='Sidebar'){
-    html = <Sidebar rooms={rooms} addRoom={addRoom}/>
+    html = <Sidebar rooms={rooms} getMessages={getMessages} addRoom={addRoom}/>
   }
 
 
   return (
     <div className="App">
-      <header>Slack 2.0</header>
-      <button className="logout-btn"  onClick={() => {setDisable(true); setSelection('LogOut')}}>Log Out</button>
+      <header className="header">Slack 2.0
+      <button className="logout-btn"  onClick={() => {setDisable(true); setShow(false); setSelection('Login')}}>Log Out</button>
+      </header>
       {html}
       {console.log(message)}
-      <MessageList message={message} submitMessage={submitMessage} rooms={rooms} deleteMessage={deleteMessage} selectedRoom={selectedRoom}/>
-      <Sidebar rooms={rooms} getMessages={getMessages} addRoom={addRoom}/>
+      <MessageList style={{display: show ? 'block' : 'none' }} message={message} submitMessage={submitMessage} rooms={rooms} deleteMessage={deleteMessage} selectedRoom={selectedRoom}/>
+      {/* <Sidebar rooms={rooms} getMessages={getMessages} addRoom={addRoom}/> */}
       {/* <MessageForm submitMessage={submitMessage} /> */}
     {/* <RegistrationForm handleRegistration={handleRegistration} />
     <MessageForm /> */}
-
+    
     </div>
   );
 }

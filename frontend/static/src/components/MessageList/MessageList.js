@@ -23,7 +23,7 @@ function handleSubmit(event){
 }
 console.log(props.rooms)
 
-const messageItems = props.message?.map(message => <div className="message-list" key={message.id} value={message.room}><div className="message-list-content"><h4>{message.user}</h4><p>{message.body}</p></div><button className="btn delete-btn" value={message.id} onClick={() => props.deleteMessage(message)}>Delete</button></div>);
+const messageItems = props.message?.map(message => <div className="message-list" key={message.id} value={message.room}><div className="message-list-content"><h4>{message.user}</h4><p>{message.body}</p><button className="btn delete-btn" value={message.id} onClick={() => props.deleteMessage(message)}>Delete</button></div></div>);
     return(
         <>
         <div className='messages'>

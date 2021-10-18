@@ -27,6 +27,7 @@ const [password, setPassword] = useState();
 
     return (
         <>
+        <h2 className="login-h2">Log In</h2>
          <form className="form" action="" onSubmit={handleLoginSubmit}>
                 <input name="name" value={users} type="text" placeholder="Username" onChange={handleUserChange}/>
                 <input name="text" value={email} type="text" placeholder="Email"onChange={handleEmailChange}/>
