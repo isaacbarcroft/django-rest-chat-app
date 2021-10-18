@@ -16,6 +16,7 @@ const [password, setPassword] = useState();
         setEmail(event.target.value);
     }
     function handleLoginSubmit(event){
+        props.setSelection('Sidebar');
         event.preventDefault();
         props.Login();
         console.log(props)

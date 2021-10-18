@@ -209,6 +209,9 @@
   overflow: scroll;
   background-color:#FCEE21;
 }
+.messages h2{
+  font-family: 'Mukta', sans-serif;
+}
 .nav-bar {
   width: 90%;
 }
@@ -288,4 +291,14 @@
   -o-transition: all .4s ease-in-out;
   -webkit-transition: all .4s ease-in-out;
   transition: all .4s ease-in-out;
+}
+.LoginPage {
+  height: 100vh;
+}
+.LoginPage h4{
+  color: #ffff
+}
+.LoginPage p{
+  font-size: 14px;
+  color: #ffff
 }

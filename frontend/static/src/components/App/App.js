@@ -76,6 +76,7 @@ useEffect(() => {
     })
     if (!response){
       console.warn(response);
+      
     } else{
       const data = await response.json();
       Cookies.set('Authorization', `Token ${data.key}`);
@@ -85,6 +86,7 @@ useEffect(() => {
         Cookies.remove('Authorization');
       }
     }
+    
   }
 
   async function submitMessage(name, text){
@@ -156,7 +158,7 @@ useEffect(() => {
   } else if (selection === 'LogOut'){
     html = <LogOut />
   } else if (selection === 'Login'){
-      html = <LoginPage  Login={Login} />
+      html = <LoginPage  Login={Login} setSelection={setSelection} />
   } else if (selection ==='Sidebar'){
     html = <Sidebar rooms={rooms} getMessages={getMessages} addRoom={addRoom}/>
   }
@@ -169,11 +171,8 @@ useEffect(() => {
       </header>
       {html}
       {console.log(message)}
-      <MessageList style={{display: show ? 'block' : 'none' }} message={message} submitMessage={submitMessage} rooms={rooms} deleteMessage={deleteMessage} selectedRoom={selectedRoom}/>
-      {/* <Sidebar rooms={rooms} getMessages={getMessages} addRoom={addRoom}/> */}
-      {/* <MessageForm submitMessage={submitMessage} /> */}
-    {/* <RegistrationForm handleRegistration={handleRegistration} />
-    <MessageForm /> */}
+       <MessageList style={{display: show ? 'block' : 'none' }} message={message} submitMessage={submitMessage} rooms={rooms} deleteMessage={deleteMessage} selectedRoom={selectedRoom}/>
+    
     
     </div>
   );
