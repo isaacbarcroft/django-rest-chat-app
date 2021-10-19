@@ -25,9 +25,9 @@ const messageItems = props.message?.map(message => <div className="message-list"
         <h2>{props.selectedRoom?.name}</h2>
         <div className="message-user" >
         {messageItems}
-        <form className="Message-form"  onSubmit={handleSubmit }>
+        <form className="Message-form"  onSubmit={handleSubmit}>
               
-                <input name="text" value={texts} type="text" placeholder={`Room: ${props.selectedRoom?.name}`} onChange={handleTextChange}/>
+                <input name="text" value={texts} type="text" placeholder={`Message  #${props.selectedRoom?.name}`} onChange={handleTextChange}/>
                 <button type="submit" className="submit_btn">Subtmit</button>
         </form>
         </div>
