@@ -1,28 +1,29 @@
 import { useState } from 'react';
 function LoginPage(props){
 
-const [email, setEmail] = useState();
-const [users, setUsers] = useState();
-const [password, setPassword] = useState();
+const [users, setUsers] = useState({
+    username: '',
+    password: '',
+});
 
 
-    function handleUserChange(event){
-        setUsers(event.target.value);
-    }
-    function handlePasswordChange(event){
-        setPassword(event.target.value);
-    }
-    function handleEmailChange(event){
-        setEmail(event.target.value);
-    }
+
+    
+const handleChange1 = (e) => {
+    const {name, value} = e.target;  // == name = e.target.value & value = e.target.value
+    setUsers(prevState => ({
+        ...prevState,
+        [name]: value,
+    }));
+}
+
     function handleLoginSubmit(event){
-        props.setSelection('Sidebar');
+       
         event.preventDefault();
-        props.Login();
-        console.log(props)
-        setUsers('');
-        setEmail('');
-        setPassword('');
+        props.Login(users);
+        props.setSelection('MessageList');
+        console.log(users)
+
     }
     
 
@@ -30,9 +31,16 @@ const [password, setPassword] = useState();
         <>
         <h2 className="login-h2">Log In</h2>
          <form className="form" action="" onSubmit={handleLoginSubmit}>
-                <input name="name" value={users} type="text" placeholder="Username" onChange={handleUserChange}/>
-                <input name="text" value={email} type="text" placeholder="Email"onChange={handleEmailChange}/>
-                <input name='passwprd' value={password} type='password' placeholder='password' onChange={handlePasswordChange} />
+         <input type='text' 
+                        className="" 
+                        id="username" 
+                        placeholder="enter username" 
+                        required 
+                        name="username" 
+                        onChange={handleChange1}
+                        value={users.username}
+                        />
+                <input name='password' value={users.password} type='password' placeholder='password' onChange={handleChange1} />
                 <button type="submit" className="submit_btn">Login</button>
             </form>
         </>

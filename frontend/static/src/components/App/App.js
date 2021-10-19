@@ -16,6 +16,9 @@ function App() {
   const [selectedRoom, setSelectedRoom] = useState({id: 0, name: ''});
   const [loggeedIn, setLoggedIn] = useState(false);
   const [show, setShow] = useState(true)
+  const [globalUser, setGlobalUser] = useState('');
+
+
 async function getMessages(event){
   const response = await fetch(`/api_v1/chats/${event.target.value}/messages/`);
   const data = await response.json();
@@ -66,7 +69,7 @@ useEffect(() => {
   }
 
   async function Login(user){
-    const response = await fetch('/rest-auth/login',{
+    const response = await fetch('/rest-auth/login/',{
       method: 'POST',
       headers:{
         'Content-Type': 'application/json',
@@ -78,7 +81,9 @@ useEffect(() => {
       console.warn(response);
       
     } else{
+      setGlobalUser(user.username);
       const data = await response.json();
+      console.log(data)
       Cookies.set('Authorization', `Token ${data.key}`);
       if (data.key){
 
@@ -89,9 +94,9 @@ useEffect(() => {
     
   }
 
-  async function submitMessage(name, text){
+  async function submitMessage(text){
     const newMessage = {
-      user: name, 
+      user: globalUser,
       room: selectedRoom.id,
       body: text, 
     };
@@ -104,13 +109,18 @@ useEffect(() => {
         'X-CSRFToken': Cookies.get('csrftoken'),
       },
       body: JSON.stringify(newMessage),
+
     });
+    console.log(response)
     setMessage([...message, newMessage])
+
     if(response.ok){
       return response.json(); 
+
 }  
   }
   const handleRegistration = async (user) => {
+  
     const options = {
       method: 'POST',
       headers: {
@@ -152,7 +162,9 @@ useEffect(() => {
   } else if(selection === 'Room'){
     html = <PageLoad setSelection={setSelection} selection={selection} />
   } else if (selection === 'MessageList'){
-    html = <MessageList message={message} submitMessage={submitMessage} rooms={rooms} deleteMessage={deleteMessage} selectedRoom={selectedRoom} />
+    html=   (<div><MessageList message={message} submitMessage={submitMessage} rooms={rooms} deleteMessage={deleteMessage} selectedRoom={selectedRoom}  globalUser={globalUser} />
+          <Sidebar rooms={rooms} getMessages={getMessages} addRoom={addRoom}/>
+    </div>)
   }else if(selection === 'RegistrationForm'){
     html = <RegistrationForm handleRegistration= {handleRegistration} />
   } else if (selection === 'LogOut'){
@@ -167,11 +179,12 @@ useEffect(() => {
   return (
     <div className="App">
       <header className="header">Slack 2.0
-      <button className="logout-btn"  onClick={() => {setDisable(true); setShow(false); setSelection('Login')}}>Log Out</button>
+      <button className="logout-btn"  onClick={() => {Cookies.remove('csrftoken'); setShow(false); setSelection('Login')}}>Log Out</button>
       </header>
       {html}
       {console.log(message)}
-       <MessageList style={{display: show ? 'block' : 'none' }} message={message} submitMessage={submitMessage} rooms={rooms} deleteMessage={deleteMessage} selectedRoom={selectedRoom}/>
+       {/* <MessageList style={{display: show ? 'block' : 'none' }} message={message} submitMessage={submitMessage} rooms={rooms} 
+       deleteMessage={deleteMessage} selectedRoom={selectedRoom} globalUser={globalUser}/> */}
     
     
     </div>

@@ -25,7 +25,6 @@ function RegistrationForm(props){
         }else {
             props.handleRegistration(user);
         }
-
     }
 
 
