@@ -73,11 +73,11 @@ useEffect(() => {
       method: 'POST',
       headers:{
         'Content-Type': 'application/json',
-        'X-CSRFToken': Cookies.get('csrftoken'),
+        // 'X-CSRFToken': Cookies.get('csrftoken'),
       },
       body: JSON.stringify(user),
     })
-    if (!response){
+    if (!response.ok){
       console.warn(response);
       
     } else{
@@ -87,7 +87,7 @@ useEffect(() => {
       Cookies.set('Authorization', `Token ${data.key}`);
       if (data.key){
 
-      }else {
+      } else {
         Cookies.remove('Authorization');
       }
     }
@@ -162,13 +162,11 @@ useEffect(() => {
   } else if(selection === 'Room'){
     html = <PageLoad setSelection={setSelection} selection={selection} />
   } else if (selection === 'MessageList'){
-    html=   (<div><MessageList message={message} submitMessage={submitMessage} rooms={rooms} deleteMessage={deleteMessage} selectedRoom={selectedRoom}  globalUser={globalUser} />
+    html=   (<div><LogOut setSelection={setSelection} setGlobalUser={setGlobalUser} selection={selection} /> <MessageList message={message} submitMessage={submitMessage} rooms={rooms} deleteMessage={deleteMessage} selectedRoom={selectedRoom}  globalUser={globalUser} />
           <Sidebar rooms={rooms} getMessages={getMessages} addRoom={addRoom}/>
     </div>)
   }else if(selection === 'RegistrationForm'){
     html = <RegistrationForm handleRegistration= {handleRegistration} />
-  } else if (selection === 'LogOut'){
-    html = <LogOut />
   } else if (selection === 'Login'){
       html = <LoginPage  Login={Login} setSelection={setSelection} />
   } else if (selection ==='Sidebar'){
@@ -179,7 +177,7 @@ useEffect(() => {
   return (
     <div className="App">
       <header className="header">Slack 2.0
-      <button className="logout-btn"  onClick={() => {Cookies.remove('csrftoken'); setShow(false); setSelection('Login')}}>Log Out</button>
+     
       </header>
       {html}
       {console.log(message)}

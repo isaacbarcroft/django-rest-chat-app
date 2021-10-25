@@ -7,8 +7,14 @@
   height: 50px;
   font-size: 30px;
   font-family: 'Lobster', cursive;
-
-
+}
+.loginPage h4{
+  font-family: 'Lobster', cursive;
+  color: #ffff;
+}
+.loginPage p{
+  font-family: 'Lobster', cursive;
+  color: #ffff;
 }
 .side-bar-nav {
   position: absolute;
