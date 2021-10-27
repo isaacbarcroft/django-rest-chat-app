@@ -22,7 +22,7 @@ const messageItems = props.message?.map(message => <div className="message-list"
     return(
         <>
         <div className='messages'>
-        <h2>{props.selectedRoom?.name}</h2>
+        <h2>{props.selectedRoom?.name.toUpperCase()}</h2>
         <div className="message-user" >
         {messageItems}
         <form className="Message-form"  onSubmit={handleSubmit}>

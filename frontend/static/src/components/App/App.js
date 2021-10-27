@@ -73,7 +73,7 @@ useEffect(() => {
       method: 'POST',
       headers:{
         'Content-Type': 'application/json',
-        // 'X-CSRFToken': Cookies.get('csrftoken'),
+        'X-CSRFToken': Cookies.get('csrftoken'),
       },
       body: JSON.stringify(user),
     })
@@ -82,6 +82,7 @@ useEffect(() => {
       
     } else{
       setGlobalUser(user.username);
+      console.log('user',user.username)
       const data = await response.json();
       console.log(data)
       Cookies.set('Authorization', `Token ${data.key}`);
@@ -113,7 +114,7 @@ useEffect(() => {
     });
     console.log(response)
     setMessage([...message, newMessage])
-
+    console.log('user',globalUser)
     if(response.ok){
       return response.json(); 
 
@@ -148,6 +149,9 @@ useEffect(() => {
           'X-CSRFToken': Cookies.get('csrftoken'),
         },
     });
+    console.log(event.target)
+    const updatedMessages = message.filter(article => article.id != event.id);
+            setMessage(updatedMessages);
   }
 
 
@@ -176,7 +180,7 @@ useEffect(() => {
 
   return (
     <div className="App">
-      <header className="header">Slack 2.0
+      <header className="header">CHATTY 2.0
      
       </header>
       {html}

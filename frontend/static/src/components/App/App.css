@@ -1,12 +1,14 @@
 .App {
   text-align: center;
-  background-color: #2F4454
+  background-color: #2F4454;
+  height: 100vh;
 }
 .header {
   background-color: #EE4C7C;
   height: 50px;
   font-size: 30px;
   font-family: 'Lobster', cursive;
+  -webkit-text-stroke: medium
 }
 .loginPage h4{
   font-family: 'Lobster', cursive;
